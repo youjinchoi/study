@@ -1,0 +1,35 @@
+https://leetcode.com/problems/reorder-data-in-log-files/
+
+public class Solution {
+    public string[] ReorderLogFiles(string[] logs) {
+      
+        List<string> letterlogs = new List<string>();
+        List<string> digitlogs = new List<string>();
+        
+        foreach(string log in logs)
+        {
+            if(char.IsDigit(log[log.IndexOf(' ')+1]))
+            {
+                digitlogs.Add(log);
+            }
+            else
+            {
+                letterlogs.Add(log);
+            }
+        }
+        letterlogs.Sort((a,b) =>{
+            string a_sbr = a.Substring(a.IndexOf(' ')+1); // "let1 art zero" => art zero
+            string b_sbr = b.Substring(b.IndexOf(' ')+1); // "let2 art can" => art can
+            var result = a_sbr.CompareTo(b_sbr);
+            
+            if(result == 0)
+            {
+                result = a.Substring(0,a.IndexOf(' ') +1).CompareTo(b.Substring(0,b.IndexOf(' ')+1)); // let3 jet blue & let1 jet blue => let3 & let1
+            }
+            return result;
+        });
+        
+        letterlogs.AddRange(digitlogs);
+        return letterlogs.ToArray();
+    }
+}

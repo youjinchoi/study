@@ -1,0 +1,79 @@
+https://leetcode.com/problems/lru-cache/
+
+// Hashmap + double linked list O(1) for put, get, space: O(capacity + 1) => O(Capacity) 1 is dictionary
+
+public class LRUCache
+{
+    public int capacity;
+    public Dictionary<int, Node> dict = new Dictionary<int, Node>();
+    Node head, tail;
+
+    public LRUCache(int capacity)
+    {
+        this.capacity = capacity;
+        head = new Node();
+        tail = new Node();
+        head.next = tail;
+        tail.prev = head;
+    }
+
+    public int Get(int key)
+    {
+        if (dict.ContainsKey(key))
+        {
+            Node temp = dict[key];
+            Remove(temp);
+            Add(temp);
+            return temp.value;
+        }
+        return -1;
+    }
+
+    public void Put(int key, int value)
+    {
+        var entry = new Node();
+        entry.key = key;
+        entry.value = value;
+        if(dict.ContainsKey(key))
+        {
+            Remove(dict[key]);
+            Add(entry);
+            dict[key] = entry;
+        }
+        else
+        {
+            Add(entry);
+            dict.Add(key, entry);
+            if(dict.Count > capacity)
+            {
+                dict.Remove(tail.prev.key);
+                Remove(tail.prev);            
+            }
+        }
+    }
+
+    public void Add(Node entry)
+    {
+        entry.prev = head;
+        entry.next = head.next;
+        head.next.prev = entry;
+        head.next = entry;
+    }
+    
+    public void Remove(Node entry)
+    {
+        var prev = entry.prev;
+        var next = entry.next;
+        prev.next = entry.next;
+        next.prev = entry.prev;
+        entry = null;
+    }
+}
+
+public class Node
+{
+    public Node prev;
+    public Node next;
+    public int key;
+    public int value;
+}

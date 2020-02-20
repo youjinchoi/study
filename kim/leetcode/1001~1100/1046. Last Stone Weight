@@ -1,0 +1,24 @@
+https://leetcode.com/problems/last-stone-weight/
+
+public class Solution {
+    public int LastStoneWeight(int[] stones) {
+        List<int> st = stones.ToList();
+        st.Sort();
+        while (st.Count > 1)
+        {
+            int first = st.Count - 1;
+            int second = st.Count - 2;
+            if(st[first] == st[second]){
+                st.RemoveAt(first);
+                st.RemoveAt(second);
+            } 
+            else 
+            {
+                st[second] = st[first] - st[second];
+                st.RemoveAt(first);
+                st.Sort();
+            }
+        }
+        return st.Count == 0 ? 0 : st[0];
+    }
+}

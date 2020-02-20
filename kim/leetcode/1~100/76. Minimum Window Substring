@@ -1,0 +1,47 @@
+https://leetcode.com/problems/minimum-window-substring/
+
+public class Solution {
+    public string MinWindow(string s, string t) {
+        if(s == null || t == null || s.Length ==0 || t.Length == 0 || s.Length < t.Length) return "";
+        
+        int[] map = new int[128];
+        for(int i = 0; i < t.Length; i++)
+        {
+            map[t[i]]++;    
+        }
+        
+        int count = 0;
+        int min = int.MaxValue;
+        int minStart = -1;
+        for(int i = 0, j = 0; j < s.Length; j++)
+        {
+            if(map[s[j]] > 0)
+            {
+                count++;
+            }
+            map[s[j]]--;
+            
+            if(count == t.Length){
+                while(i < j && map[s[i]] < 0)
+                {
+                    map[s[i]]++;
+                    i++;
+                }
+                
+                map[s[i]]++;
+                
+                if(min > j - i + 1)
+                {
+                    min = j - i + 1;
+                    minStart = i;
+                }
+                
+                i++;
+                count--;
+            }
+        }
+        return minStart == -1 ? "" : s.Substring(minStart, min);
+    }
+}   
+
+// time: O(|S| + |T|)

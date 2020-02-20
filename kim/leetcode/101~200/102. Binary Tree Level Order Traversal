@@ -1,0 +1,86 @@
+https://leetcode.com/problems/binary-tree-level-order-traversal/
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     public int val;
+ *     public TreeNode left;
+ *     public TreeNode right;
+ *     public TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public IList<IList<int>> LevelOrder(TreeNode root) {
+        IList<IList<int>> result = new List<IList<int>>();        
+        if(root == null) return result;
+        Queue<TreeNode> q = new Queue<TreeNode>();
+        q.Enqueue(root);
+        
+        while(q.Count > 0){
+            IList<int> list = new List<int>();
+            int size = q.Count;
+            for(int i = 0; i < size; i++){
+                TreeNode node = q.Dequeue();
+                list.Add(node.val);
+                if(node.left != null){
+                    q.Enqueue(node.left);
+                }
+                if(node.right != null){
+                    q.Enqueue(node.right);
+                }
+            }
+            result.Add(list);
+        }
+        
+        return result;
+    }
+}
+
+/*
+public class Solution {
+    public IList<IList<int>> LevelOrder(TreeNode root) {
+        if(root != null){
+            List<List<int>> list = new List<List<int>>();
+            Queue<int, int> q = new Queue<int, int>();
+            
+            q.Enqueue(root.val, 0);
+            TreeNodeQueue(list, q, root, 1);
+            
+            int currentLevel = -1;
+            foreach((int n, int l) data in a){
+                List<int> currentList;
+                if(l > currentLevel)
+                {
+                    list.Add(currentList);
+                    currentList = new List<int>();
+                    currentLevel ++;
+                }
+                else
+                {
+                    currentList = list[l];
+                }
+                currentList.Add(n);
+            }
+        }  
+        return null;
+    }
+    
+    private void TreeNodeQueue(Queue<int> q, TreeNode root, int level){
+        if(root != null){
+            if(root.left != null){
+                q.Enqueue(root.left.val, level);
+            }
+            if(root.left != null){
+                q.Enqueue(root.right.val, level);
+            }
+            if(root.left != null){
+                TreeNodeQueue(q, root.left, level);
+            }
+            if(root.left != null){
+                TreeNodeQueue(q, root.right, level);
+            }
+            level++;
+        }
+    }
+}
+*/
