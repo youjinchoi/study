@@ -1,6 +1,7 @@
-Kim's 
+# Kim's 
 
-todo, Facebook questions
+> todo, Facebook questions
+
 [ ] Leftmost column index of 1 https://leetcode.com/discuss/interview-question/341247/Facebook-or-Leftmost-column-index-of-1
 [X] 23. [Merge k Sorted Lists](https://leetcode.com/problems/merge-k-sorted-lists)  [Article](https://leetcode.com/rticles/merge-k-sorted-list)  - Hard
 [] 238. [Product of Array Except Self](https://leetcode.com/problems/product-of-array-except-self)  [Article](https://leetcode.com/rticles/product-of-array-except-self)  - Medium
@@ -53,9 +54,9 @@ todo, Facebook questions
 [] 398. [Random Pick Index](https://leetcode.com/problems/random-pick-index)  [Article](https://leetcode.com/)  - Medium
 [] 689. [Maximum Sum of 3 Non-Overlapping Subarrays](https://leetcode.com/problems/maximum-sum-of-3-non-overlapping-subarrays)  [Article](https://leetcode.com/rticles/maximum-sum-of-3-non-overlapping-intervals)  - Hard
 
-review,
-[ ]
-[ ]
+> review,
+[]
+[]
 
 
 /***
