@@ -3,9 +3,9 @@
 #### Facebook questions, todo list
 
 > https://leetcode.com/problemset/top-facebook-questions/ 50 Top Facebook questions
-
+```html
 - [ ] [Leftmost column index of 1](https://leetcode.com/discuss/interview-question/341247/Facebook-or-Leftmost-column-index-of-1)
-- [x] 23. [Merge k Sorted Lists](https://leetcode.com/problems/merge-k-sorted-lists) [Article](https://leetcode.com/articles/merge-k-sorted-list) - <span style="color:brown;">Hard</span>
+- [x] 23. [Merge k Sorted Lists](https://leetcode.com/problems/merge-k-sorted-lists) [Article](https://leetcode.com/articles/merge-k-sorted-list) - <span style="color:brown">Hard</span>
 - [ ] 238. [Product of Array Except Self](https://leetcode.com/problems/product-of-array-except-self) [Article](https://leetcode.com/articles/product-of-array-except-self) - <span style="color:orange">Medium</span>
 - [ ] 56. [Merge Intervals](https://leetcode.com/problems/merge-intervals) [Article](https://leetcode.com/articles/merge-intervals) - <span style="color:orange">Medium</span>
 - [ ] 273. [Integer to English Words](https://leetcode.com/problems/integer-to-english-words) [Article](https://leetcode.com/articles/integer-to-english-words) - <span style="color:brown">Hard</span>
@@ -85,7 +85,7 @@
 - [ ] 543. [Diameter of Binary Tree](https://leetcode.com//problems/diameter-of-binary-tree) - <span style="color:green">Easy</span>
 - [x] 76. [Minimum Window Substring](https://leetcode.com//problems/minimum-window-substring) - <span style="color:brown">Hard</span>
 - [ ] 278. [First Bad Version](https://leetcode.com//problems/first-bad-version) - <span style="color:green">Easy</span>
-
+```
 > review
 
 - [ ]
