@@ -1,4 +1,5 @@
 ## Week 1
+
 ####C
 
 - [ ] https://leetcode.com/problems/move-zeroes/
@@ -9,10 +10,10 @@
 - [ ] https://leetcode.com/problems/merge-intervals/
 - [ ] https://leetcode.com/problems/decode-ways/
 
-####K
+####K [folder](kim/weekly/week1)
 
-- [x] https://leetcode.com/problems/move-zeroes/ [code](kim/weekly/week 1/2. Add Two Numbers.txt)
-- [x] https://leetcode.com/problems/add-two-numbers/ has been done but did one more time [code](kim\weekly\week 1\283. Move Zeroes.txt)
+- [x] https://leetcode.com/problems/move-zeroes/ [code](kim/weekly/week1/2_Add_Two_Numbers.txt)
+- [x] https://leetcode.com/problems/add-two-numbers/ has been done but did one more time [code](kim\weekly\week1\283_Move_Zeroes.txt)
 - [ ] https://leetcode.com/problems/validate-binary-search-tree/
 - [ ] https://leetcode.com/problems/remove-invalid-parentheses/
 - [ ] https://leetcode.com/problems/meeting-rooms-ii/
