@@ -11,8 +11,8 @@ C
 
 K
 
-- [x] https://leetcode.com/problems/move-zeroes/
-- [x] https://leetcode.com/problems/add-two-numbers/ has been done but did one more time
+- [x] https://leetcode.com/problems/move-zeroes/ [code](kim/weekly/week 1/2. Add Two Numbers.txt)
+- [x] https://leetcode.com/problems/add-two-numbers/ has been done but did one more time [code](kim\weekly\week 1\283. Move Zeroes.txt)
 - [ ] https://leetcode.com/problems/validate-binary-search-tree/
 - [ ] https://leetcode.com/problems/remove-invalid-parentheses/
 - [ ] https://leetcode.com/problems/meeting-rooms-ii/
