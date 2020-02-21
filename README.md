@@ -14,7 +14,7 @@
 
 - [x] https://leetcode.com/problems/move-zeroes/ [code](kim/weekly/week1/2_Add_Two_Numbers.txt)
 - [x] https://leetcode.com/problems/add-two-numbers/ has been done but did one more time [code](kim\weekly\week1\283_Move_Zeroes.txt)
-- [ ] https://leetcode.com/problems/validate-binary-search-tree/
+- [X]? https://leetcode.com/problems/validate-binary-search-tree/ [code](kim\weekly\week1\98_Validate_Binary_Search_Tree.txt)
 - [ ] https://leetcode.com/problems/remove-invalid-parentheses/
 - [ ] https://leetcode.com/problems/meeting-rooms-ii/
 - [ ] https://leetcode.com/problems/merge-intervals/

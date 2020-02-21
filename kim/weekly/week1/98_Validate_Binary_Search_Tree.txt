@@ -1,0 +1,244 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     public int val;
+ *     public TreeNode left;
+ *     public TreeNode right;
+ *     public TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public bool IsValidBST(TreeNode root) {
+        
+    }
+}
+
+// start
+
+// valid BST need to have only smaller elements on left sub tree and greater ones on right side sub tree
+// so each TreeNode's val become a max of left sub tree nodes and min of right sub tree nodes
+// to search all the nodes, using DFS and dp
+
+public class Solution {
+    public bool IsValidBST(TreeNode root) {
+        return IsValidBST(root, int.MinValue, int.MaxValue);
+    }
+
+    public bool IsValidBST(TreeNode node, int min, int max)
+    {
+        if(node.left == null && node.right == null) // leaf node condition
+        {
+            return true;
+        }
+        if(node.val <= min || node.val >= max) // invalid check
+        {
+            return false;
+        }
+        if(node.left != null)
+        {
+            IsValidBST(node.left, node.val, max);
+        }
+        if(node.right != null)
+        {
+            IsValidBST(node.right, min, node.val);
+        }
+    }
+}
+
+error => Line 6: Char 17: error CS0161: 'Solution.IsValidBST(TreeNode, int, int)': not all code paths return a value (in Solution.cs)
+
+public class Solution {
+    public bool IsValidBST(TreeNode root) {
+        return IsValidBST(root, int.MinValue, int.MaxValue);
+    }
+
+    public bool IsValidBST(TreeNode node, int min, int max)
+    {
+        if(node.left == null && node.right == null) // leaf node condition
+        {
+            return true;
+        }
+        if(node.val <= min || node.val >= max) // invalid check
+        {
+            return false;
+        }
+        if(node.left != null)
+        {
+            return IsValidBST(node.left, node.val, max);  ==> stupid
+        }
+        if(node.right != null)
+        {
+            return IsValidBST(node.right, min, node.val);  ==> stupid
+        }
+        return true;
+    }
+}
+
+Input
+[5,1,4,null,null,3,6]
+Output
+true
+Expected
+false
+
+public class Solution {
+    public bool IsValidBST(TreeNode root) {
+        return IsValidBST(root, int.MinValue, int.MaxValue);
+    }
+
+    public bool IsValidBST(TreeNode node, int min, int max)
+    {
+        if(node.left == null && node.right == null) // leaf node condition
+        {
+            return true;
+        }
+        if(node.val <= min || node.val >= max) // invalid check
+        {
+            return false;
+        }
+        if(node.left != null)
+        {
+            return IsValidBST(node.left, min, node.val);
+        }
+        if(node.right != null)
+        {
+            return IsValidBST(node.right, node.val, max);
+        }
+        return true;
+    }
+}
+
+Input
+[5,1,4,null,null,3,6]
+Output
+true
+Expected
+false
+
+        5
+    1        4
+null null  3   6
+
+
+public class Solution {
+    public bool IsValidBST(TreeNode root) {
+        return IsValidBST(root, int.MinValue, int.MaxValue);
+    }
+
+    public bool IsValidBST(TreeNode node, int min, int max)
+    {
+        if(node.val <= min || node.val >= max) // invalid check
+        {
+            return false;
+        }
+        if(node.left == null && node.right == null) // leaf node condition
+        {
+            return true;
+        }
+        if(node.left != null)
+        {
+            return IsValidBST(node.left, min, node.val);
+        }
+        if(node.right != null)
+        {
+            return IsValidBST(node.right, node.val, max);
+        }
+        return true;
+    }
+}
+
+Input
+[5,1,4,null,null,3,6]
+Output
+true
+Expected
+false
+
+
+        5
+    1        4
+null null  3   6
+
+
+public class Solution {
+    public bool IsValidBST(TreeNode root) {
+        return IsValidBST(root, int.MinValue, int.MaxValue);
+    }
+                                               5
+    public bool IsValidBST(TreeNode node, int min, int max)
+    {                   5
+        if(node.val <= min || node.val >= max) // invalid check
+        {
+            return false;
+        }
+        if(node.left != null)
+        {
+            IsValidBST(node.left, min, node.val);
+        }
+        if(node.right != null)
+        {
+            IsValidBST(node.right, node.val, max);
+        }
+        return true;
+    }
+}
+
+Input
+[5,1,4,null,null,3,6]
+Output
+true
+Expected
+false
+
+public class Solution {
+    public bool IsValidBST(TreeNode root) {
+        return IsValidBST(root, int.MinValue, int.MaxValue);
+    }
+                                               
+    public bool IsValidBST(TreeNode node, int min, int max)
+    {          
+        if(node == null)
+        {
+            return true;
+        }
+        if(node.val <= min || node.val >= max) // invalid check
+        {
+            return false;
+        }
+        return IsValidBST(node.left, min, node.val) && IsValidBST(node.right, node.val, max);
+    }
+}
+
+Input
+[2147483647]
+Output
+false
+Expected
+true
+
+public class Solution {
+    public bool IsValidBST(TreeNode root) {
+        return IsValidBST(root, double.MinValue, double.MaxValue);
+    }
+                                               
+    public bool IsValidBST(TreeNode node, double min, double max)
+    {          
+        if(node == null)
+        {
+            return true;
+        }
+        if(node.val <= min || node.val >= max) // invalid check
+        {
+            return false;
+        }
+        return IsValidBST(node.left, min, node.val) && IsValidBST(node.right, node.val, max);
+    }
+}
+
+pass ... fuck this shit
+
+time : O(N) in the worst case, valid BTS or bad element at the rightmost leaf
+space : O(N) as using dp, recursion, All node in call stack
+
+
+will try inorder traversal later
