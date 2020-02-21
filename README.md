@@ -19,7 +19,7 @@
 - [ ] https://leetcode.com/problems/merge-intervals/
 - [ ] https://leetcode.com/problems/decode-ways/
 
-add two number was worth to try again.
+add two number was worth to try again. remainded me that how stupid I am : (
 
 I decided to do coding on txt and when I am sure then just submit...
 
