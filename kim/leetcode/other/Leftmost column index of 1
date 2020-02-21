@@ -1,0 +1,23 @@
+https://leetcode.com/discuss/interview-question/341247/Facebook-or-Leftmost-column-index-of-1
+
+public Solution(int[][] input)
+{
+    if(input == null || input.Length == 0) return -1;
+    int i = 0;
+    int j = input[0].Length - 1;
+    while(i < input.Length && j >= 0)
+    {
+        if(input[i][j] == 0)
+        {
+            i++;
+        }
+        else
+        {
+            j--;
+        }
+    }
+    return j == input[0].Length - 1 ? -1 : j + 1;
+}
+
+Time: O(i + j); i : rows j : column
+Sapce: O(1)
