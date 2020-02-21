@@ -1,5 +1,5 @@
-Week 1
-C
+## Week 1
+####C
 
 - [ ] https://leetcode.com/problems/move-zeroes/
 - [ ] https://leetcode.com/problems/add-two-numbers/
@@ -9,7 +9,7 @@ C
 - [ ] https://leetcode.com/problems/merge-intervals/
 - [ ] https://leetcode.com/problems/decode-ways/
 
-K
+####K
 
 - [x] https://leetcode.com/problems/move-zeroes/
 - [x] https://leetcode.com/problems/add-two-numbers/ has been done but did one more time
