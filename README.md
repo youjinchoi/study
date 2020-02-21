@@ -1,5 +1,5 @@
-Week 1
-C
+## Week 1
+####C
 
 - [ ] https://leetcode.com/problems/move-zeroes/
 - [ ] https://leetcode.com/problems/add-two-numbers/
@@ -9,7 +9,7 @@ C
 - [ ] https://leetcode.com/problems/merge-intervals/
 - [ ] https://leetcode.com/problems/decode-ways/
 
-K
+####K
 
 - [x] https://leetcode.com/problems/move-zeroes/ [code](kim/weekly/week 1/2. Add Two Numbers.txt)
 - [x] https://leetcode.com/problems/add-two-numbers/ has been done but did one more time [code](kim\weekly\week 1\283. Move Zeroes.txt)
@@ -19,7 +19,7 @@ K
 - [ ] https://leetcode.com/problems/merge-intervals/
 - [ ] https://leetcode.com/problems/decode-ways/
 
-add two number was worth to try again.
+add two number was worth to try again. remainded me that how stupid I am : (
 
 I decided to do coding on txt and when I am sure then just submit...
 
