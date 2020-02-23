@@ -1,0 +1,48 @@
+https://leetcode.com/problems/find-median-from-data-stream/
+
+
+
+public class MedianFinder {
+    List<int> list;
+    
+    /** initialize your data structure here. */
+    public MedianFinder() {
+        list = new List<int>();
+        
+    }
+    
+    public void AddNum(int num) {
+        int left = 0;
+        int right = list.Count;
+        
+        while(left < right)
+        {
+            int mid = (right + left) / 2;
+            if(list[mid] < num)
+            {
+                left = mid + 1;
+            }
+            else
+            {
+                right = mid;
+            }
+        }
+        
+        list.Insert(left, num);
+        
+    }
+    
+    public double FindMedian() {
+        int count = list.Count;
+        int mid = count / 2;
+        
+        if(count % 2 == 0)
+        {            
+            return (double) (list[mid] + list[mid - 1]) / 2;
+        }
+        else
+        {
+            return list[mid];
+        }
+    }
+}

@@ -1,0 +1,135 @@
+https://leetcode.com/problems/rotting-oranges/
+
+//BFS O(N) Space Complexity: O(N).
+public class Solution {
+    public int OrangesRotting(int[][] grid) {
+        if(grid == null || grid.Length == 0 || grid[0].Length == 0) return -1;
+            
+        Queue<int[]> queue = new Queue<int[]>();
+        int[][] direction = new int[][]
+        {
+            new int[] {0, 1}, 
+            new int[] {0, -1}, 
+            new int[] {1, 0}, 
+            new int[] {-1, 0}
+        };
+        
+        for(int i = 0; i < grid.Length; i++)
+        {
+            for(int j = 0; j < grid[i].Length; j++)
+            {
+                if(grid[i][j] == 2)
+                {
+                    queue.Enqueue(new int[]{i, j});
+                }
+            }
+        }
+        int days = 0;
+        while(queue.Count > 0)
+        {
+            int[] current = queue.Dequeue();
+            int i = current[0];
+            int j = current[1];
+            foreach(int[] dir in direction)
+            {
+                int ix = i + dir[0];
+                int jx = j + dir[1];
+                if(ix >= 0 && ix < grid.Length && jx >= 0 && jx < grid[ix].Length && grid[ix][jx] == 1)
+                {
+                    queue.Enqueue(new int[]{ix, jx});
+                    grid[ix][jx] = grid[i][j] + 1;
+                    days = grid[ix][jx] - 2;
+                }
+            }
+        }
+        
+        for(int i = 0; i < grid.Length; i++)
+        {
+            for(int j = 0; j < grid[i].Length; j++)
+            {
+                if(grid[i][j] == 1)
+                {
+                    return -1;
+                }
+            }
+        }
+        
+        return days;
+    }
+}
+
+/*
+public class Solution {
+    public int OrangesRotting(int[][] grid) {
+        if(grid == null || grid.Length == 0 || grid[0].Length == 0)
+            return -1;
+        int days = 0;
+        while(mark(grid))
+        {
+            days++;
+        }
+        
+        return checkAll(grid) ? days : -1;
+    }
+
+    
+    public bool mark(int[][] grid)
+    {
+        bool changed = false;
+        int[][] direction = new int[][]
+        {
+            new int[] {0, 1}, 
+            new int[] {0, -1}, 
+            new int[] {1, 0}, 
+            new int[] {-1, 0}
+        };
+        
+        for(int i = 0; i < grid.Length; i++)
+        {
+            for(int j = 0; j < grid[i].Length; j++)
+            {
+                if(grid[i][j] == 2)
+                {
+                    foreach(int[] dir in direction)
+                    {
+                        int newI = i + dir[0];
+                        int newJ = j + dir[1];
+                        if(newI >= 0 && newJ >= 0 && newI < grid.Length && newJ < grid[newI].Length && grid[newI][newJ] == 1)
+                        {
+                            grid[newI][newJ] = -1;
+                        }
+                    }
+                }
+            }
+        }
+        for(int i = 0; i < grid.Length; i++)
+        {
+            for(int j = 0; j < grid[i].Length; j++)
+            {
+                if(grid[i][j] == -1)
+                {
+                    grid[i][j] = 2;
+                    changed = true;
+                }
+            }
+        }
+        return changed;
+    }
+    
+    public bool checkAll(int[][] grid)
+    {
+        for(int i = 0; i < grid.Length; i++)
+        {
+            for(int j = 0; j < grid[i].Length; j++)
+            {
+                if(grid[i][j] == 1)
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+}
+
+*/

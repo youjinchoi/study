@@ -1,0 +1,56 @@
+https://leetcode.com/problems/search-suggestions-system/
+
+public class Solution {
+    public IList<IList<string>> SuggestedProducts(string[] products, string searchWord) {
+        Array.Sort(products, StringComparer.Ordinal);
+        var result = new List<IList<string>>();
+        var keyword = "";
+        foreach(var c in searchWord)
+        {
+            keyword += c;
+            var current = new List<string>();
+            int count = 0;
+            foreach(string product in products)
+            {
+                if(product.StartsWith(keyword, StringComparison.Ordinal))
+                {
+                    current.Add(product);
+                    count++;
+                }
+                if(count == 3)
+                {
+                    break;
+                }
+            }
+            result.Add(current);
+        }
+        return result;
+    }
+}    
+        /*
+public IList<IList<string>> SuggestedProducts(string[] products, string searchWord) {
+        var result = new List<IList<string>>();
+        var current = "";
+        Array.Sort(products, StringComparer.Ordinal);
+        foreach (var s in searchWord)
+        {
+            var row = new List<string>();
+            var count = 0;
+            current += s;
+            foreach (var p in products)
+            {
+                if (p.StartsWith(current, StringComparison.Ordinal))
+                {
+                    count++;
+                    row.Add(p);
+                }
+                
+                if (count == 3) break;
+            }
+            result.Add(row);
+        }
+        
+        return result;
+    }
+    }
+    */

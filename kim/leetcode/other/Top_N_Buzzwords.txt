@@ -1,0 +1,92 @@
+https://leetcode.com/discuss/interview-question/460127/
+
+class HelloWorld {
+    static void Main() {
+        
+        var result = TopToys(6, 3, new List<string>{"elsa", "elmo" , "legos", "drone", "tablet", "warcraft"}, 6,
+        new List<string>{
+          "Elmo is the hottest of the season!Elsa  Elmo will be on every kid's wishlist!",
+          "The new  dolls are super high  quality Elsa",
+          "Expect Elmo the  dolls to Elsa be very  popular Elsa Elmo this year, !",
+          " and are the toys I'll be buying for my kids,   is good",
+          "For parents of older kids, look into buying them a drone",
+          "Warcraft is slowly rising in popularity ahead  of the holiday season"
+        });
+        
+        foreach(var item in result)
+        {
+            System.Console.Write(item+" ");
+        }
+    }
+    
+     public static int CheckOccurrences(string str1, string pattern)
+    {
+        int count = 0;
+        int a = 0;
+        while ((a = str1.IndexOf(pattern, a)) != -1)
+        {
+            a += pattern.Length;
+            count++;
+        }
+        return count;
+    }
+
+    private static KeyValuePair<string, int[]> CustomComparer(KeyValuePair<string, int[]> l, KeyValuePair<string, int[]> r){
+        int[] left = l.Value;
+        int[] right = r.Value;
+        if(left[0] == right[0])
+        {
+            if(left[1] == right[1])
+            {
+                return string.Compare(l.Key, r.Key) > 0 ? r : l;
+            }
+            else if(left[1] > right[1])
+            {
+                return l;
+            }
+            return r;
+        }
+        else if(left[0] > right[0])
+        {
+            return l;
+        }
+        return r;
+    }
+    
+    private static List<string> TopToys(int numToys, int topToys, List<string> toys, int numQuotes, List<string> quotes)
+    {
+        Dictionary<string, int[]> priority = new Dictionary<string, int[]>();
+        List<string> result = new List<string>();
+        int countOfOccurence = 0;
+        int countOfQuotes = 0;
+        foreach (var toy in toys)
+        {
+            foreach (var quote in quotes)
+            {
+                var res = CheckOccurrences(quote.ToLower(), toy);
+                if (res > 0)
+                {
+                    countOfOccurence += res;
+                    countOfQuotes++;
+                }
+            }
+            if(priority.ContainsKey(toy))
+            {
+                priority[toy] = new int[]{priority[toy][0] + countOfOccurence, priority[toy][1] + countOfQuotes};
+            }
+            else
+            {
+                priority[toy] = new int[]{countOfOccurence, countOfQuotes};
+            }
+            countOfQuotes = 0;
+            countOfOccurence = 0;
+        }
+        for (int i = 0; i < topToys; i++)
+        {
+            var res = priority.Aggregate((l,r) => CustomComparer(l, r)).Key;
+            result.Add(res);
+            priority.Remove(res);
+        }
+        return result;
+    }
+}

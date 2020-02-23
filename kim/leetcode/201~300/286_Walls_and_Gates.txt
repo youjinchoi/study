@@ -1,0 +1,48 @@
+https://leetcode.com/problems/walls-and-gates/
+
+// BFS Time O(mn) Sapce O(mn) m: rows n: column
+
+public class Solution {
+    public void WallsAndGates(int[][] rooms) {
+        if(rooms == null || rooms.Length == 0) return;
+
+        Queue<int[]> queue = new Queue<int[]>();
+        for(int i = 0; i < rooms.Length; i++)
+        {
+            for(int j = 0; j < rooms[i].Length; j++)
+            {
+                if(rooms[i][j] == 0)
+                {
+                    queue.Enqueue(new int[]{i, j});
+                }
+            }
+        }
+        
+        while(queue.Count > 0)
+        {
+            int[] current = queue.Dequeue();
+            int i = current[0];
+            int j = current[1];
+            if(i < rooms.Length - 1 && rooms[i+1][j] == int.MaxValue)
+            {
+                rooms[i+1][j] = rooms[i][j] + 1;
+                queue.Enqueue(new int[]{i+1, j});
+            }
+            if(i > 0 && rooms[i-1][j] == int.MaxValue)
+            {
+                rooms[i-1][j] = rooms[i][j] + 1;
+                queue.Enqueue(new int[]{i-1, j});
+            }
+            if(j < rooms[i].Length - 1 && rooms[i][j+1] == int.MaxValue)
+            {
+                rooms[i][j+1] = rooms[i][j] + 1;
+                queue.Enqueue(new int[]{i, j+1});
+            }
+            if(j > 0 && rooms[i][j-1] == int.MaxValue)
+            {
+                rooms[i][j-1] = rooms[i][j] + 1;
+                queue.Enqueue(new int[]{i, j-1});
+            }   
+        }
+    }
+}

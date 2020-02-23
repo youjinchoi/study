@@ -1,0 +1,95 @@
+https://leetcode.com/problems/merge-k-sorted-lists/
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     public int val;
+ *     public ListNode next;
+ *     public ListNode(int x) { val = x; }
+ * }
+ */
+// going forward to use like merge sort, Time : O(Nlogk) k: length of list, n: nodes, space : O(1) 
+public class Solution {
+    public ListNode MergeKLists(ListNode[] lists) {
+        if (lists == null || lists.Length == 0)
+        {
+            return null;
+        }
+        
+        return Merge(lists, 0, lists.Length-1);
+    }
+    
+    private ListNode Merge(ListNode[] lists, int start, int end)
+    {
+        if (start == end)
+        {
+            return lists[start];
+        }
+        else
+        {
+            int mid = (start + end)/2;
+            ListNode left = Merge(lists, start, mid);
+            ListNode right = Merge(lists, mid+1, end);
+            return MergeTwo(left, right);
+        }
+    }
+    
+    private ListNode MergeTwo(ListNode l1, ListNode l2)
+    {
+        ListNode head = new ListNode(0);
+        ListNode current = head;
+        while(l1 != null && l2 != null)
+        {
+            if(l1.val < l2.val)
+            {
+                current.next = l1;
+                l1 = l1.next;
+            }
+            else
+            {
+                current.next = l2;
+                l2 = l2.next;
+            }
+            current = current.next;
+        }
+        current.next = l1 == null ? l2 : l1;
+        return head.next;
+    }
+}
+ /*   
+    public ListNode MergeKLists(ListNode[] lists) {
+        int amount = lists.Length;
+        int interval = 1;
+        while (interval < amount)
+        {
+            for(int i = 0; i < amount - interval; i = interval * 2)
+            {
+                lists[i] = merge2Lists(lists[i], lists[i + interval]);
+            }
+            interval *= 2;
+        }
+        return amount > 0 ? lists[0] : null;
+    }
+    
+    public ListNode merge2Lists(ListNode l1, ListNode l2)
+    {
+        ListNode head = new ListNode(0);
+        ListNode current = head;
+        while(l1 != null && l2 != null)
+        {
+            if(l1.val < l2.val)
+            {
+                current.next = l1;
+                l1 = l1.next;
+            }
+            else
+            {
+                current.next = l2;
+                l2 = l2.next;
+            }
+            current = current.next;
+        }
+        current.next = l1 == null ? l2 : l1;
+        return head.next;
+    }
+*/

@@ -1,0 +1,81 @@
+https://leetcode.com/problems/squares-of-a-sorted-array/
+
+public class Solution {
+    public int[] SortedSquares(int[] A) {
+        int i = 0;
+        int j = A.Length - 1;
+        int r = j;
+        int[] result = new int[A.Length](); <= Line 6: Char 24: error CS0149: Method name expected (in Solution.cs)
+        while(i < j)
+        {
+            if(Math.Abs(A[i]) > A[j])
+            {
+                result[r--] = A[i] * A[i];
+                i++;
+            }
+            else
+            {
+                result[r--] = A[j] * A[j];
+                j--;
+            }
+        }
+        return result;
+    }
+}
+
+public class Solution {
+    public int[] SortedSquares(int[] A) {
+        int i = 0;
+        int j = A.Length - 1;
+        int r = j;
+        int[] result = new int[A.Length];
+        while(i < j)
+        {
+            if(Math.Abs(A[i]) > A[j])
+            {
+                result[r--] = A[i] * A[i];
+                i++;
+            }
+            else
+            {
+                result[r--] = A[j] * A[j];
+                j--;
+            }
+        }
+        return result;
+    }
+}
+
+Input
+[-7,-3,2,3,11]
+Output
+[0,9,9,49,121]
+Expected
+[4,9,9,49,121]
+
+public class Solution {
+    public int[] SortedSquares(int[] A) {
+        int i = 0;
+        int j = A.Length - 1;
+        int r = j;
+        int[] result = new int[A.Length];
+        while(i <= j)
+        {
+            if(Math.Abs(A[i]) > A[j])
+            {
+                result[r--] = A[i] * A[i];
+                i++;
+            }
+            else
+            {
+                result[r--] = A[j] * A[j];
+                j--;
+            }
+        }
+        return result;
+    }
+}
+
+done, 
+Time: O(N)
+Space: O(N)

@@ -1,0 +1,22 @@
+https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/
+
+public class Solution {
+    public int MaxProfit(int[] prices) {
+        if(prices == null || prices.Length == 0) return 0;
+        int k = 2;
+        int[,] T = new int[k + 1, prices.Length];
+        
+        for(int i = 1; i < T.GetLength(0); i++)
+        {
+            int maxDiff = -prices[0];
+            for(int j = 1; j < T.GetLength(1); j++)
+            {
+                T[i,j] = Math.Max(T[i, j - 1], prices[j] + maxDiff);
+                maxDiff= Math.Max(maxDiff, T[i - 1, j] - prices[j]);
+            }
+        }
+        return T[k, prices.Length - 1];
+    }
+}
+
+//Time: O(days X k)
