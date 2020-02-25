@@ -1,3 +1,4 @@
+package leetcode;
 /*
 * https://leetcode.com/problems/validate-binary-search-tree/
 * 
@@ -12,23 +13,23 @@
 * */
 public class ValidateBinarySearchTree {
 	static boolean isValidBST(TreeNode root) {
-		return isValid(root.left, root.val) && isValid(root.right, root.val);
+		return isValid(root);
 	}
 	
-	static boolean isValid(TreeNode node, int parentVal) {
+	static boolean isValid(TreeNode node) {
 		if (node == null) {
 			return true;
 		}
 		
-		if (node.left != null && node.left.val >= parentVal) {
+		if (node.left != null && node.left.val >= node.val) {
 			return false;
 		}
 		
-		if (node.right != null && parentVal >= node.right.val) {
+		if (node.right != null && node.val >= node.right.val) {
 			return false;
 		}
 		
-		return isValid(node.left, node.val) && isValid(node.right, node.val);
+		return isValid(node.left) && isValid(node.right);
 	}
 }
 
