@@ -48,7 +48,11 @@ public class MergeIntervals {
 			result[i] = list.get(i);
 		}
 		
-		return result;
+		if (intervals.length == result.length) {
+			return result;
+		} else {
+			return merge(result);
+		}
     }
 	
 	static boolean isOverlapping(int[] arr1, int[] arr2) {
