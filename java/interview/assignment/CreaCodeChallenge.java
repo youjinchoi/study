@@ -4,12 +4,14 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
+import java.util.TreeSet;
 
 class AdjacentStation implements Comparable<AdjacentStation> {
 	String name;
@@ -22,23 +24,30 @@ class AdjacentStation implements Comparable<AdjacentStation> {
 
 	@Override
 	public int compareTo(AdjacentStation target) {
-		return target.time - this.time;
+		if (this.name.equalsIgnoreCase(target.name)) {
+			return 0;
+		}
+		if (this.time == target.time) {
+			return this.name.compareTo(target.name);
+		}
+		return this.time - target.time;
 	}
 }
 
 class Station {
 	String name;
-	PriorityQueue<AdjacentStation> adjacentStations;
+	Set<AdjacentStation> adjacentStations;
 	
 	Station(String name) {
 		this.name = name;
-		this.adjacentStations = new PriorityQueue<AdjacentStation>();
+		this.adjacentStations = new TreeSet<AdjacentStation>();
 	}
 }
 
 class SearchResult {
 	String startingStation;
 	String endingStation;
+	boolean routesExists;
 	int time;
 	int stop;
 	String errorMessage;
@@ -46,28 +55,17 @@ class SearchResult {
 	SearchResult(String startingStation, String endingStation) {
 		this.startingStation = startingStation;
 		this.endingStation = endingStation;
-	}
-	
-	String getResult() {
-		if (errorMessage != null) {
-			return errorMessage;
-		}
-		
-		if (time == Integer.MAX_VALUE) {
-			return String.format("No Routes from %s to %s", startingStation, endingStation);
-		}
-		
-		return String.format("Your trip from %s to %s includes %d stops and will take %d minutes.", startingStation, endingStation, stop, time);
+		this.routesExists = false;
+		this.time = Integer.MAX_VALUE;
+		this.stop = -1;
 	}
 }
 
 class TrainRoutes {
 	Map<String, Station> stationMap;
-	Map<String, SearchResult> searchResultMap;
 	
 	TrainRoutes() {
 		stationMap = new HashMap<String, Station>();
-		searchResultMap = new HashMap<String, SearchResult>();
 	}
 	
 	void addRelation(String firstStationName, String secondStationName, int time) {
@@ -83,22 +81,21 @@ class TrainRoutes {
 	}
 	
 	SearchResult search(String startingStation, String endingStation) {
-		SearchResult tempResult = new SearchResult(startingStation, endingStation);
+		SearchResult result = new SearchResult(startingStation, endingStation);
 		if (!stationMap.containsKey(startingStation)) {
-			tempResult.errorMessage = "starting station doesn't exist.";
-			return tempResult;
+			result.errorMessage = "starting station doesn't exist.";
+			return result;
 		}
 		
 		if (!stationMap.containsKey(endingStation)) {
-			tempResult.errorMessage = "ending station doesn't exist.";
-			return tempResult;
+			result.errorMessage = "ending station doesn't exist.";
+			return result;
 		}
 		
 		Station starting = stationMap.get(startingStation);
-		tempResult.time = Integer.MAX_VALUE;
-		tempResult.stop = 0;
-		searchRecursive(starting, endingStation, new HashSet<String>(), 0, tempResult);
-		return tempResult;
+		searchRecursive(starting, endingStation, new HashSet<String>(), 0, result);
+
+		return result;
 	}
 	
 	void searchRecursive(Station startingStation, String endingStationName, Set<String> visitedSet, int accumulatedTime, SearchResult tempResult) {
@@ -111,6 +108,9 @@ class TrainRoutes {
 		if (startingStation.name.equalsIgnoreCase(endingStationName)) {
 			tempResult.stop = visitedSet.size() - 2;
 			tempResult.time = accumulatedTime;
+			if (!tempResult.routesExists) {
+				tempResult.routesExists = true;	
+			}
 			return;
 		}
 		
@@ -126,44 +126,64 @@ class TrainRoutes {
 }
 
 public class CreaCodeChallenge {
-	// using external library for unit test ok?
-	// about csv data, can I assume that the time between 2 stops is always positive integer number?
-	// any range of csv file data? such as the number of lines of csv data is 1 < number of lines < N
-	// 'No need to use any algorithm' means I shouldn't use any existing algorithm? or 
+	
 	public static void main(String[] args) {
+		TrainRoutes trainRoutes = new TrainRoutes();
 		BufferedReader csvReader;
+		String filePath = "/Users/youjin/git/study/java/interview/assignment/routes.csv";	// /Users/youjin/git/study/java/interview/assignment/routes.csv
+		if (args.length > 0) {
+			filePath = args[0];
+		}
 		try {
-			csvReader = new BufferedReader(new FileReader("routes.csv"));
+			csvReader = new BufferedReader(new FileReader(filePath));
 			String row;
 			while ((row = csvReader.readLine()) != null) {
 			    String[] data = row.split(",");
-			    // do something with the data
+			    if (data.length != 3) {
+			    		System.out.println(String.format("Incorrect format of data: %s to %s", row));
+			    		continue;
+			    }
+			    try {
+			    		int time = Integer.valueOf(data[2]);
+				    if (time < 0) {
+			    			System.out.println(String.format("Incorrect format of data: %s to %s", row));
+				    		continue;
+				    }
+				    trainRoutes.addRelation(data[0], data[1], time);
+			    } catch (NumberFormatException e) {
+			    		System.out.println(String.format("Incorrect format of data: %s to %s", row));
+			    }
 			}
 			csvReader.close();
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+		} catch (FileNotFoundException e) {
+    			System.out.println(String.format("File doesn't exists:", filePath));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		TrainRoutes trainRoutes = new TrainRoutes();
-		trainRoutes.addRelation("A", "B", 5);
-		trainRoutes.addRelation("B", "C", 5);
-		trainRoutes.addRelation("C", "D", 7);
-		trainRoutes.addRelation("A", "D", 15);
-		trainRoutes.addRelation("E", "F", 5);
-		trainRoutes.addRelation("F", "G", 5);
-		trainRoutes.addRelation("G", "H", 10);
-		trainRoutes.addRelation("H", "I", 10);
-		trainRoutes.addRelation("I", "J", 5);
-		trainRoutes.addRelation("G", "J", 20);
-		
-		SearchResult result = trainRoutes.search("A", "J");
-		
-		System.out.println(result.getResult());
+		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+		String startingStation = null, endingStation = null;
+		try {
+			System.out.println("What station are you getting on the train?");
+			startingStation = reader.readLine();
+			
+			System.out.println("What station are you getting off the train?");
+			endingStation = reader.readLine();
+			
+			SearchResult result = trainRoutes.search(startingStation, endingStation);
+			
+			if (result.errorMessage != null) {
+				System.out.println(result.errorMessage);
+			} else if (!result.routesExists) {
+				System.out.println(String.format("No Routes from %s to %s", startingStation, endingStation));
+			} else {
+				System.out.println(String.format("Your trip from %s to %s includes %d stops and will take %d minutes.", startingStation, endingStation, result.stop, result.time));
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
-
 }
 
