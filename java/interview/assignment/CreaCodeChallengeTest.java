@@ -80,4 +80,12 @@ class CreaCodeChallengeTest {
 		assertEquals(result.stop, 0);
 		assertEquals(result.time, 5);
 	}
+	
+	@Test
+	void should_return_error_message_when_starting_and_ending_station_are_same() {
+		trainRoutes.addRelation("A", "B", 5);
+		
+		SearchResult result = trainRoutes.search("A", "A");
+		assertEquals("starting station and ending station are same.", result.errorMessage);
+	}
 }

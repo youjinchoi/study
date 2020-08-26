@@ -40,7 +40,7 @@ class Station {
 	
 	Station(String name) {
 		this.name = name;
-		this.adjacentStations = new TreeSet<AdjacentStation>();
+		this.adjacentStations = new TreeSet<AdjacentStation>();	// use tree set to check stations in time ascending order
 	}
 }
 
@@ -80,47 +80,57 @@ class TrainRoutes {
 		stationMap.get(stationName).adjacentStations.add(new AdjacentStation(adjacentStationName, time));
 	}
 	
-	SearchResult search(String startingStation, String endingStation) {
-		SearchResult result = new SearchResult(startingStation, endingStation);
-		if (!stationMap.containsKey(startingStation)) {
+	SearchResult search(String startingStationName, String endingStationName) {
+		SearchResult result = new SearchResult(startingStationName, endingStationName);
+		if (!stationMap.containsKey(startingStationName)) {
 			result.errorMessage = "starting station doesn't exist.";
 			return result;
 		}
 		
-		if (!stationMap.containsKey(endingStation)) {
+		if (!stationMap.containsKey(endingStationName)) {
 			result.errorMessage = "ending station doesn't exist.";
 			return result;
 		}
 		
-		Station starting = stationMap.get(startingStation);
-		searchRecursive(starting, endingStation, new HashSet<String>(), 0, result);
+		if (startingStationName.equalsIgnoreCase(endingStationName)) {
+			result.errorMessage = "starting station and ending station are same.";
+			return result;
+		}
+		
+		Station startingStation = stationMap.get(startingStationName);
+		searchRecursive(startingStation, endingStationName, new HashSet<String>(), 0, result);
 
 		return result;
 	}
 	
-	void searchRecursive(Station startingStation, String endingStationName, Set<String> visitedSet, int accumulatedTime, SearchResult tempResult) {
-		if (accumulatedTime > tempResult.time) {
+	void searchRecursive(Station currentStation, String endingStationName, Set<String> visitedSet, int accumulatedTime, SearchResult result) {
+		// if shorter time already exists in result, no need to find the routes
+		if (accumulatedTime > result.time) {
 			return;
 		}
 		
-		visitedSet.add(startingStation.name);
+		// mark visited
+		visitedSet.add(currentStation.name);
 		
-		if (startingStation.name.equalsIgnoreCase(endingStationName)) {
-			tempResult.stop = visitedSet.size() - 2;
-			tempResult.time = accumulatedTime;
-			if (!tempResult.routesExists) {
-				tempResult.routesExists = true;	
+		// if reaches ending station, put result data and return
+		if (currentStation.name.equalsIgnoreCase(endingStationName)) {
+			result.stop = visitedSet.size() - 2;
+			result.time = accumulatedTime;
+			if (!result.routesExists) {
+				result.routesExists = true;	
 			}
 			return;
 		}
 		
-		Iterator<AdjacentStation> iterator = startingStation.adjacentStations.iterator();
+		// iterate all adjacent stations in time ascending order
+		Iterator<AdjacentStation> iterator = currentStation.adjacentStations.iterator();
 		while (iterator.hasNext()) {
 			AdjacentStation adjacentStation = iterator.next();
+			// skip already visited station
 			if (visitedSet.contains(adjacentStation.name)) {
 				continue;
 			}
-			searchRecursive(stationMap.get(adjacentStation.name), endingStationName, new HashSet<String>(visitedSet), accumulatedTime + adjacentStation.time, tempResult);
+			searchRecursive(stationMap.get(adjacentStation.name), endingStationName, new HashSet<String>(visitedSet), accumulatedTime + adjacentStation.time, result);
 		}
 	}
 }
@@ -130,8 +140,8 @@ public class CreaCodeChallenge {
 	public static void main(String[] args) {
 		TrainRoutes trainRoutes = new TrainRoutes();
 		BufferedReader csvReader;
-		String filePath = "/Users/youjin/git/study/java/interview/assignment/routes.csv";	// /Users/youjin/git/study/java/interview/assignment/routes.csv
-		if (args.length > 0) {
+		String filePath = "routes.csv";
+		if (args.length > 0 && args[0] != "") {
 			filePath = args[0];
 		}
 		try {
@@ -157,9 +167,10 @@ public class CreaCodeChallenge {
 			csvReader.close();
 		} catch (FileNotFoundException e) {
     			System.out.println(String.format("File doesn't exists:", filePath));
+    			return;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println(String.format("error occured while reading %s", filePath));
+			return;
 		}
 		
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -181,8 +192,7 @@ public class CreaCodeChallenge {
 				System.out.println(String.format("Your trip from %s to %s includes %d stops and will take %d minutes.", startingStation, endingStation, result.stop, result.time));
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("error occured while running application");
 		}
 	}
 }
