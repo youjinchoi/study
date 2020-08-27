@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -40,21 +39,17 @@ class Station {
 	
 	Station(String name) {
 		this.name = name;
-		this.adjacentStations = new TreeSet<AdjacentStation>();	// use tree set to check stations in time ascending order
+		this.adjacentStations = new TreeSet<AdjacentStation>();	// use tree set to visit stations in time ascending order
 	}
 }
 
 class SearchResult {
-	String startingStation;
-	String endingStation;
 	boolean routesExists;
 	int time;
 	int stop;
 	String errorMessage;
 	
-	SearchResult(String startingStation, String endingStation) {
-		this.startingStation = startingStation;
-		this.endingStation = endingStation;
+	SearchResult() {
 		this.routesExists = false;
 		this.time = Integer.MAX_VALUE;
 		this.stop = -1;
@@ -81,13 +76,13 @@ class TrainRoutes {
 	}
 	
 	SearchResult search(String startingStationName, String endingStationName) {
-		SearchResult result = new SearchResult(startingStationName, endingStationName);
-		if (!stationMap.containsKey(startingStationName)) {
+		SearchResult result = new SearchResult();
+		if (startingStationName == null || startingStationName == "" || !stationMap.containsKey(startingStationName)) {
 			result.errorMessage = "starting station doesn't exist.";
 			return result;
 		}
 		
-		if (!stationMap.containsKey(endingStationName)) {
+		if (endingStationName == null || endingStationName == "" || !stationMap.containsKey(endingStationName)) {
 			result.errorMessage = "ending station doesn't exist.";
 			return result;
 		}
@@ -130,6 +125,7 @@ class TrainRoutes {
 			if (visitedSet.contains(adjacentStation.name)) {
 				continue;
 			}
+			// should pass new set as each route should have its own set to track visited station
 			searchRecursive(stationMap.get(adjacentStation.name), endingStationName, new HashSet<String>(visitedSet), accumulatedTime + adjacentStation.time, result);
 		}
 	}
@@ -150,26 +146,39 @@ public class CreaCodeChallenge {
 			while ((row = csvReader.readLine()) != null) {
 			    String[] data = row.split(",");
 			    if (data.length != 3) {
-			    		System.out.println(String.format("Incorrect format of data: %s to %s", row));
+			    		System.out.println(String.format("Incorrect format of data: %s", row));
 			    		continue;
 			    }
+			    
+			    String startingStation = data[0];
+		    		if (startingStation == null || startingStation == "") {
+		    			System.out.println(String.format("Incorrect format of starting station: %s", startingStation));
+			    		continue;
+		    		}
+		    		
+		    		String endingStation = data[1];
+		    		if (endingStation == null || endingStation == "") {
+		    			System.out.println(String.format("Incorrect format of ending station: %s", endingStation));
+			    		continue;
+		    		}
+		    		
 			    try {
 			    		int time = Integer.valueOf(data[2]);
 				    if (time < 0) {
-			    			System.out.println(String.format("Incorrect format of data: %s to %s", row));
+			    			System.out.println(String.format("Incorrect format of time: %d", time));
 				    		continue;
 				    }
-				    trainRoutes.addRelation(data[0], data[1], time);
+				    trainRoutes.addRelation(startingStation, endingStation, time);
 			    } catch (NumberFormatException e) {
-			    		System.out.println(String.format("Incorrect format of data: %s to %s", row));
+			    		System.out.println(String.format("Incorrect format of time: %s", data[2]));
 			    }
 			}
 			csvReader.close();
 		} catch (FileNotFoundException e) {
-    			System.out.println(String.format("File doesn't exists:", filePath));
+    			System.out.println(String.format("File doesn't exists: %s", filePath));
     			return;
 		} catch (IOException e) {
-			System.out.println(String.format("error occured while reading %s", filePath));
+			System.out.println(String.format("error occured while reading file: %s", filePath));
 			return;
 		}
 		

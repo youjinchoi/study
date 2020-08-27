@@ -2,7 +2,6 @@ package interview.assignment;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -27,24 +26,25 @@ class CreaCodeChallengeTest {
 		trainRoutes.addRelation("I", "J", 5);
 		trainRoutes.addRelation("G", "J", 20);
 		
-		SearchResult resultAtoB = trainRoutes.search("A", "B");
-		assertEquals(resultAtoB.stop, 0);
-		assertEquals(resultAtoB.time, 5);
+		SearchResult result;
+		result = trainRoutes.search("A", "B");
+		assertEquals(result.stop, 0);
+		assertEquals(result.time, 5);
 		
-		SearchResult resultAtoC = trainRoutes.search("A", "C");
-		assertEquals(resultAtoC.stop, 1);
-		assertEquals(resultAtoC.time, 10);
+		result = trainRoutes.search("A", "C");
+		assertEquals(result.stop, 1);
+		assertEquals(result.time, 10);
 		
-		SearchResult resultEtoJ = trainRoutes.search("E", "J");
-		assertEquals(resultEtoJ.stop, 2);
-		assertEquals(resultEtoJ.time, 30);
+		result = trainRoutes.search("E", "J");
+		assertEquals(2, result.stop);
+		assertEquals(result.time, 30);
 		
-		SearchResult resultAtoD = trainRoutes.search("A", "D");
-		assertEquals(resultAtoD.stop, 0);
-		assertEquals(resultAtoD.time, 15);
+		result = trainRoutes.search("A", "D");
+		assertEquals(result.stop, 0);
+		assertEquals(result.time, 15);
 		
-		SearchResult resultAtoJ = trainRoutes.search("A", "J");
-		assertFalse(resultAtoJ.routesExists);
+		result = trainRoutes.search("A", "J");
+		assertFalse(result.routesExists);
 	}
 	
 	@Test
@@ -60,13 +60,22 @@ class CreaCodeChallengeTest {
 		trainRoutes.addRelation("C", "D", 7);
 		trainRoutes.addRelation("A", "D", 15);
 		
-		SearchResult resultZtoB = trainRoutes.search("Z", "B");
-		assertFalse(resultZtoB.routesExists);
-		assertEquals("starting station doesn't exist.", resultZtoB.errorMessage);
+		SearchResult result;
+		result = trainRoutes.search("Z", "B");
+		assertFalse(result.routesExists);
+		assertEquals("starting station doesn't exist.", result.errorMessage);
 		
-		SearchResult resultAtoZ = trainRoutes.search("A", "Z");
-		assertFalse(resultAtoZ.routesExists);
-		assertEquals("ending station doesn't exist.", resultAtoZ.errorMessage);
+		result = trainRoutes.search("A", "Z");
+		assertFalse(result.routesExists);
+		assertEquals("ending station doesn't exist.", result.errorMessage);
+		
+		result = trainRoutes.search(null, "B");
+		assertFalse(result.routesExists);
+		assertEquals("starting station doesn't exist.", result.errorMessage);
+		
+		result = trainRoutes.search("A", "");
+		assertFalse(result.routesExists);
+		assertEquals("ending station doesn't exist.", result.errorMessage);
 	}
 	
 	@Test
